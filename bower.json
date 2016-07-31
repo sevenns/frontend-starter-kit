@@ -1,0 +1,23 @@
+{
+  "name": "starting-template",
+  "description": "HTML-SASS-GULP template for fast start wor",
+  "main": "index.js",
+  "authors": [
+    "alexander sevenns"
+  ],
+  "license": "ISC",
+  "homepage": "github.com/sevenns",
+  "dependencies": {
+    "jquery-1.11.1": "^3.1.0",
+    "font-awesome": "^4.6.3",
+    "bourbon": "^4.2.7"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./src/libs/",
+    "test",
+    "tests"
+  ]
+}
