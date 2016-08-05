@@ -1,8 +1,10 @@
 # Requirements
 
-You need [nodejs] (https://nodejs.org/en/) with npm and bower
+You need [nodejs] (https://nodejs.org/en/) with npm, bower and gulp
 
     npm install -g bower
+    
+    npm install -g gulp
     
 For work bower you need to install [git] (https://git-scm.com/downloads) on your PC
 
