@@ -35,3 +35,33 @@ enter for start main function
 enter for image minification from ./src/img to ./dist/img
 
     gulp img-minify
+
+# SVG Sprites
+
+All svg icons need to move in ./src/img/icons
+
+How to add icon in pug file
+```pug
++icon('filename-in-iconsdir', 'custom-style')
+```
+or without custom style
+```pug
++icon('filename-in-iconsdir')
+```
+
+For customization icon you can use
+```scss
+.icon--filename-in-iconsdir {
+    // styles
+    
+    & .custom-style {
+        // styles
+    }
+}
+```
+or without custom style
+```scss
+.icon--filename-in-iconsdir {
+    // styles
+}
+```
