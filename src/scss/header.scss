@@ -4,7 +4,8 @@
 //	Then you can delete header.min.css, header.sass and '<script>loadCSS( "css/header.min.css?ver=1.0.0" .. );</script>' in index.html'
 
 @import "../libs/bourbon/app/assets/stylesheets/bourbon";
-@import "vars";
+@import "variables";
+@import "sprites";
 
 body {
 	font-size: 16px;
