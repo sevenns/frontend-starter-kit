@@ -9,7 +9,6 @@
   "homepage": "github.com/sevenns",
   "dependencies": {
     "jquery": "^3.1.0",
-    "font-awesome": "^4.7.0",
     "bourbon": "^4.2.7",
     "svg4everybody": "^2.1.4"
   },

@@ -1,7 +1,6 @@
 @import "variables";
 @import "sprites";
 @import "../libs/bourbon/app/assets/stylesheets/bourbon";
-@import "../libs/font-awesome/scss/font-awesome";
 
 *::-webkit-input-placeholder {
 	color: lighten($color_on_light--text, 25%);
