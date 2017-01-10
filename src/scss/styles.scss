@@ -1,0 +1,33 @@
+@import "vars";
+@import "../libs/bourbon/app/assets/stylesheets/bourbon";
+@import "../libs/font-awesome/scss/font-awesome";
+
+*::-webkit-input-placeholder {
+	color: lighten($color_on_light--text, 25%);
+	opacity: 1;
+}
+
+*:-moz-placeholder {
+	color: lighten($color_on_light--text, 25%);
+	opacity: 1;
+}
+
+*::-moz-placeholder {
+	color: lighten($color_on_light--text, 25%);
+	opacity: 1;
+}
+
+*:-ms-input-placeholder {
+	color: lighten($color_on_light--text, 25%);
+	opacity: 1;
+}
+
+body input:focus:required:invalid,
+body textarea:focus:required:invalid {
+	color: $color_on_light--text;
+}
+
+body input:required:valid,
+body textarea:required:valid {
+	color: $color_on_light--text;
+}

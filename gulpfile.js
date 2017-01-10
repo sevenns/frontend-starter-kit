@@ -1,5 +1,6 @@
 var gulp =					require('gulp'),
 		sass =					require('gulp-sass'),
+    pug =           require('gulp-pug'),
 		autoprefixer =	require('gulp-autoprefixer'),
 		htmlmin =				require('gulp-htmlmin'),
 		cssmin =				require('gulp-clean-css'),
@@ -15,7 +16,7 @@ var sourceDir = "./src/",
 
 
 gulp.task('sass', function() {
-	return gulp.src(sourceDir + "sass/**/*.sass")
+	return gulp.src(sourceDir + "scss/**/*.scss")
 	.pipe(sass().on('error', sass.logError))
 	.pipe(rename({suffix: '.min', prefix : ''}))
 	.pipe(autoprefixer({
@@ -27,18 +28,30 @@ gulp.task('sass', function() {
 	.pipe(sync.stream());
 });
 
-gulp.task('html-minify', function() {
-	return gulp.src(sourceDir + "*.html")
-	.pipe(htmlmin({collapseWhitespace: true}))
-	.pipe(gulp.dest(distDir));
+gulp.task('pug', function() {
+  return gulp.src(sourceDir + "pug/*.pug")
+  .pipe(pug({
+    pretty: true
+  }))
+  .pipe(htmlmin({collapseWhitespace: true}))
+  .pipe(gulp.dest(distDir));
+});
+
+
+
+gulp.task('scripts-libs-minify', function() {
+	return gulp.src([
+		sourceDir + "libs/jquery/dist/jquery.min.js"
+		//add some libs
+	])
+	.pipe(concat('libs.min.js'))
+	.pipe(jsmin())
+	.pipe(gulp.dest(distDir + "js/"));
 });
 
 gulp.task('scripts-minify', function() {
-	return gulp.src([
-		sourceDir + "libs/jquery-1.11.1/dist/jquery.min.js"
-		//add some libs
-	])
-	.pipe(concat('libs.js'))
+	return gulp.src(sourceDir + "scripts/**/*.js")
+	.pipe(concat('scripts.min.js'))
 	.pipe(jsmin())
 	.pipe(gulp.dest(distDir + "js/"));
 });
@@ -60,13 +73,14 @@ gulp.task('img-minify', ['img-delete'], function() {
 	.pipe(gulp.dest(distDir + "img/"));
 });
 
-gulp.task('watch', ['sass', 'html-minify', 'scripts-minify', 'img-minify', 'sync'], function() {
-	gulp.watch(sourceDir + "sass/**/*.sass", ['sass']);
-	gulp.watch(sourceDir + "*.html", ['html-minify']);
-	gulp.watch(sourceDir + "libs/**/*.js", ['scripts-minify']);
+gulp.task('watch', ['sass', 'pug', 'scripts-libs-minify', 'scripts-minify', 'img-minify', 'sync'], function() {
+	gulp.watch(sourceDir + "scss/**/*.scss", ['sass']);
+	gulp.watch(sourceDir + "pug/**/*.pug", ['pug']);
+	gulp.watch(sourceDir + "scripts/**/*.js", ['scripts-minify']);
+	gulp.watch(sourceDir + "libs/**/*.js", ['scripts-libs-minify']);
 	gulp.watch(sourceDir + "img/**/*.+(png|jpg|gif|svg)", ['img-minify']);
 	gulp.watch(distDir + "*.html").on('change', sync.reload);
-	gulp.watch(distDir + "js/**/*.js").on('change', sync.reload);
+	gulp.watch(sourceDir + "scripts/**/*.js").on('change', sync.reload);
 	gulp.watch(distDir + "img/**/*.+(png|jpg|gif|svg)").on('change', sync.reload);
 });
 

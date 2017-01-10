@@ -1,3 +1,7 @@
 /.idea/**/*
 /node_modules/**/*
 /src/libs/**/*
+/dist/css/**/
+/dist/img/**/**
+/dist/js/*.js
+/dist/*.html

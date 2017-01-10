@@ -1,6 +1,6 @@
 {
   "name": "starting-template",
-  "description": "HTML-SASS-GULP template for fast start wor",
+  "description": "PUG-GULP-SASS template for fast start work",
   "main": "index.js",
   "authors": [
     "alexander sevenns"
@@ -8,8 +8,8 @@
   "license": "ISC",
   "homepage": "github.com/sevenns",
   "dependencies": {
-    "jquery-1.11.1": "^3.1.0",
-    "font-awesome": "^4.6.3",
+    "jquery": "^3.1.0",
+    "font-awesome": "^4.7.0",
     "bourbon": "^4.2.7"
   },
   "ignore": [
