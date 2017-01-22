@@ -1,33 +1,34 @@
+@import "../libs/bourbon/app/assets/stylesheets/bourbon";
+@import "../libs/normalize-css/normalize";
 @import "variables";
 @import "sprites";
-@import "../libs/bourbon/app/assets/stylesheets/bourbon";
 
 *::-webkit-input-placeholder {
-	color: lighten($color_on_light--text, 25%);
-	opacity: 1;
+  color: lighten($color_on_light--text, 25%);
+  opacity: 1;
 }
 
 *:-moz-placeholder {
-	color: lighten($color_on_light--text, 25%);
-	opacity: 1;
+  color: lighten($color_on_light--text, 25%);
+  opacity: 1;
 }
 
 *::-moz-placeholder {
-	color: lighten($color_on_light--text, 25%);
-	opacity: 1;
+  color: lighten($color_on_light--text, 25%);
+  opacity: 1;
 }
 
 *:-ms-input-placeholder {
-	color: lighten($color_on_light--text, 25%);
-	opacity: 1;
+  color: lighten($color_on_light--text, 25%);
+  opacity: 1;
 }
 
 body input:focus:required:invalid,
 body textarea:focus:required:invalid {
-	color: $color_on_light--text;
+  color: $color_on_light--text;
 }
 
 body input:required:valid,
 body textarea:required:valid {
-	color: $color_on_light--text;
+  color: $color_on_light--text;
 }

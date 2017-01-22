@@ -8,7 +8,6 @@ var gulp =					require('gulp'),
 		jsmin =					require('gulp-uglify'),
 		concat =				require('gulp-concat'),
 		sync =					require('browser-sync').create(),
-		imagemin =			require('gulp-imagemin'),
 		remove =				require('gulp-clean'),
 		svgsprite =			require('gulp-svg-sprite'),
 		svgmin =				require('gulp-svgmin'),
@@ -67,19 +66,8 @@ gulp.task('sync', function() {
 	});
 });
 
-gulp.task('img-delete', function() {
-	return gulp.src(distDir + "img/*")
-	.pipe(remove());
-});
-
-gulp.task('img-minify', ['img-delete'], function() {
-	return gulp.src(sourceDir + "img/**/*.+(png|jpg|gif|ico)")
-	.pipe(imagemin())
-	.pipe(gulp.dest(distDir + "img/"));
-});
-
 gulp.task('svg-sprite', function() {
-	return gulp.src(sourceDir + "img/icons/*.svg")
+	return gulp.src(sourceDir + "icons/*.svg")
 	.pipe(svgmin({
 		js2svg: { pretty: true }
 	}))
@@ -108,32 +96,19 @@ gulp.task('svg-sprite', function() {
 	.pipe(gulp.dest(distDir + "img/"));
 });
 
-gulp.task('watch', ['sass', 'pug', 'scripts-libs-minify', 'scripts-minify', 'img-minify', 'svg-sprite', 'sync'], function() {
+gulp.task('watch', ['sass', 'pug', 'scripts-libs-minify', 'scripts-minify', 'sync'], function() {
 	gulp.watch(sourceDir + "scss/**/*.scss", ['sass']);
 	gulp.watch(sourceDir + "pug/**/*.pug", ['pug']);
 	gulp.watch(sourceDir + "scripts/**/*.js", ['scripts-minify']);
 	gulp.watch(sourceDir + "libs/**/*.js", ['scripts-libs-minify']);
-	gulp.watch(sourceDir + "img/**/*.+(png|jpg|gif)", ['img-minify']);
-	gulp.watch(sourceDir + "img/icons/*.svg", ['svg-sprite']);
-	gulp.watch(distDir + "*.html").on('change', sync.reload);
+	gulp.watch(sourceDir + "icons/*.svg", ['svg-sprite']);
+	gulp.watch(sourceDir + "pug/**/*.pug").on('change', sync.reload);
 	gulp.watch(sourceDir + "scripts/**/*.js").on('change', sync.reload);
-	gulp.watch(sourceDir + "img/icons/*.svg").on('change', sync.reload);
-	gulp.watch(distDir + "img/**/*.+(png|jpg|gif)").on('change', sync.reload);
+	gulp.watch(sourceDir + "img/**/*.+(svg|png|jpg|gif)").on('change', sync.reload);
 });
 
-gulp.task('start', ['watch'], function() {
+gulp.task('default', ['svg-sprite', 'watch'], function() {
 	console.log("Gulp started");
-});
-
-gulp.task('default', function() {
-	console.log();
-	console.log("***************************************");
-	console.log();
-	console.log("'gulp start' - for start main function");
-	console.log("'gulp img-minify' - minification of images(png|jpg|gif|svg) from ./src/img to ./dist/img");
-	console.log();
-	console.log("***************************************");
-	console.log();
 });
 
 gulp.task('help', function() {
