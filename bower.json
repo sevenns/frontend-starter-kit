@@ -10,7 +10,8 @@
   "dependencies": {
     "jquery": "^3.1.0",
     "bourbon": "^4.2.7",
-    "svg4everybody": "^2.1.4"
+    "svg4everybody": "^2.1.4",
+    "normalize-css": "^5.0.0"
   },
   "ignore": [
     "**/.*",
