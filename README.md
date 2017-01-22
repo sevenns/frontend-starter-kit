@@ -14,31 +14,27 @@ You need to open project directory in your terminal
 
 First, you need to install node modules:
 
-    npm install
+    npm i
 
 Now do the same thing with bower:
 
-    bower install
+    bower i
 
 # Use
 
 You need to open project directory in your terminal and:
 
-enter for help message
+enter for start main function
 
     gulp
 
-enter for start main function
+enter for craft icons
 
-    gulp start
-
-enter for image minification from ./src/img to ./dist/img
-
-    gulp img-minify
+    gulp svg-sprite
 
 # SVG Sprites
 
-All svg icons need to move in ./src/img/icons
+All svg icons need to move in ./src/icons
 
 How to add icon in pug file
 ```pug
