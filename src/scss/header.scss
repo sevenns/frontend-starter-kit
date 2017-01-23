@@ -4,7 +4,7 @@
 //  Then you can delete header.min.css, header.sass and '<script>loadCSS( "css/header.min.css?ver=1.0.0" .. );</script>' in _head.pug'
 
 @import "../libs/bourbon/app/assets/stylesheets/bourbon";
-@import "../libs/normalize-css/normalize";
+@import "../libs/normalize-css/normalize.css";
 @import "variables";
 @import "sprites";
 
