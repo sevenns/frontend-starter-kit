@@ -5,4 +5,5 @@
 /dist/css/**/*
 /dist/img/*
 /dist/js/*.js
+/dist/js/*.map
 /dist/*.html
