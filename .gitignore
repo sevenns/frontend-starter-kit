@@ -1,8 +1,8 @@
 /.idea/**/*
 /node_modules/**/*
 /src/libs/**/*
-/src/scss/_sprites.scss
+/src/scss/common/_sprites.scss
 /dist/css/**/*
-/dist/img/**/*
+/dist/img/*
 /dist/js/*.js
 /dist/*.html

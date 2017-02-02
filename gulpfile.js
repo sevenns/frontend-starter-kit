@@ -5,21 +5,22 @@ var gulp =					require('gulp'),
 		htmlmin =				require('gulp-htmlmin'),
 		cssmin =				require('gulp-clean-css'),
 		rename =				require('gulp-rename'),
-		jsmin =					require('gulp-uglify'),
+		jsmin =					require('gulp-uglifyjs'),
 		concat =				require('gulp-concat'),
 		sync =					require('browser-sync').create(),
-		remove =				require('gulp-clean'),
 		svgsprite =			require('gulp-svg-sprite'),
 		svgmin =				require('gulp-svgmin'),
 		cheerio =				require('gulp-cheerio'),
-		replace =				require('gulp-replace');
+		replace =				require('gulp-replace'),
+		del =						require('del'),
+		runSequence =		require('run-sequence');
 
 var sourceDir = "./src/",
 		distDir = "./dist/";
 
 
 gulp.task('sass', function() {
-	return gulp.src(sourceDir + "scss/**/*.scss")
+	return gulp.src(sourceDir + "scss/+(styles.scss|fonts.scss)")
 	.pipe(sass().on('error', sass.logError))
 	.pipe(rename({suffix: '.min', prefix : ''}))
 	.pipe(autoprefixer({
@@ -36,6 +37,7 @@ gulp.task('pug', function() {
   .pipe(pug({
     pretty: true
   }))
+  .on('error', console.log)
   .pipe(htmlmin({collapseWhitespace: true}))
   .pipe(gulp.dest(distDir));
 });
@@ -49,14 +51,18 @@ gulp.task('scripts-libs-minify', function() {
 		//add some libs
 	])
 	.pipe(concat('libs.min.js'))
-	.pipe(jsmin())
+	.pipe(jsmin({
+		outSourceMap: false
+	}))
 	.pipe(gulp.dest(distDir + "js/"));
 });
 
 gulp.task('scripts-minify', function() {
 	return gulp.src(sourceDir + "scripts/**/*.js")
 	.pipe(concat('scripts.min.js'))
-	.pipe(jsmin())
+	.pipe(jsmin({
+		outSourceMap: true
+	}))
 	.pipe(gulp.dest(distDir + "js/"));
 });
 
@@ -66,7 +72,8 @@ gulp.task('sync', function() {
 	});
 });
 
-gulp.task('svg-sprite', function() {
+gulp.task('craft-svg', function() {
+	del(sourceDir + 'scss/common/_sprites.scss');
 	return gulp.src(sourceDir + "icons/*.svg")
 	.pipe(svgmin({
 		js2svg: { pretty: true }
@@ -86,8 +93,8 @@ gulp.task('svg-sprite', function() {
 				sprite: "../sprites.svg",
 				render: {
 					scss: {
-						dest: "../../../src/scss/_sprites.scss",
-						template: sourceDir + "scss/_sprites_layout.scss"
+						dest: "../../../src/scss/common/_sprites.scss",
+						template: sourceDir + "scss/common/_sprites_layout.scss"
 					}
 				}
 			}
@@ -96,19 +103,23 @@ gulp.task('svg-sprite', function() {
 	.pipe(gulp.dest(distDir + "img/"));
 });
 
-gulp.task('watch', ['sass', 'pug', 'scripts-libs-minify', 'scripts-minify', 'sync'], function() {
+gulp.task('watch', function() {
+
 	gulp.watch(sourceDir + "scss/**/*.scss", ['sass']);
-	gulp.watch(sourceDir + "pug/**/*.pug", ['pug']);
-	gulp.watch(sourceDir + "scripts/**/*.js", ['scripts-minify']);
+	gulp.watch(sourceDir + "pug/**/*.pug", ['pug', sync.reload]);
+	gulp.watch(sourceDir + "scripts/**/*.js", ['scripts-minify', sync.reload]);
 	gulp.watch(sourceDir + "libs/**/*.js", ['scripts-libs-minify']);
-	gulp.watch(sourceDir + "icons/*.svg", ['svg-sprite']);
-	gulp.watch(sourceDir + "pug/**/*.pug").on('change', sync.reload);
-	gulp.watch(sourceDir + "scripts/**/*.js").on('change', sync.reload);
-	gulp.watch(sourceDir + "img/**/*.+(svg|png|jpg|gif)").on('change', sync.reload);
+	gulp.watch(sourceDir + "icons/*.svg").on('change', function() {
+		runSequence('craft-svg', sync.reload);
+	});
+	gulp.watch(distDir + "img/**/+(*.svg|*.png|*.jpg|*.gif)").on('change', sync.reload);
 });
 
-gulp.task('default', ['svg-sprite', 'watch'], function() {
-	console.log("Gulp started");
+gulp.task('default', function() {
+	runSequence('craft-svg',
+							['sass', 'pug', 'scripts-libs-minify', 'scripts-minify'],
+							'sync',
+							'watch');
 });
 
 gulp.task('help', function() {
