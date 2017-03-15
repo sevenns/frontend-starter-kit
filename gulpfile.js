@@ -50,14 +50,7 @@ gulp.task('pug', function() {
 gulp.task('scripts-libs-minify', function() {
 	return gulp.src([
 		sourceDir + "libs/jquery/dist/jquery.min.js",
-		sourceDir + "libs/svg4everybody/dist/svg4everybody.min.js",
-		sourceDir + "libs/vue/dist/vue.js",
-		sourceDir + "scripts/plugins/*.js",
-		sourceDir + "libs/fetch/fetch.js",
-		sourceDir + "libs/microplugin/src/microplugin.js",
-		sourceDir + "libs/sifter/sifter.min.js",
-		sourceDir + "libs/selectize/dist/js/selectize.min.js",
-		sourceDir + "libs/jquery-mask-plugin/dist/jquery.mask.min.js"
+		sourceDir + "libs/svg4everybody/dist/svg4everybody.min.js"
 		//add some libs
 	])
 	.pipe(concat('libs.js'))
