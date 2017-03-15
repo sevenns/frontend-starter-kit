@@ -1,0 +1,7 @@
+@import "./variables";
+
+// Convert px to rem
+@function rem($size) {
+  $remSize: $size / $baseSize;
+  @return #{$remSize}rem;
+}

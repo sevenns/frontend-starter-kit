@@ -13,23 +13,25 @@ var gulp =					require('gulp'),
 		cheerio =				require('gulp-cheerio'),
 		replace =				require('gulp-replace'),
 		del =						require('del'),
-		runSequence =		require('run-sequence');
+		runSequence =		require('run-sequence'),
+		imgmin =				require('gulp-imagemin');
 
 var sourceDir = "./src/",
+		devDir = "./dev/",
 		distDir = "./dist/";
 
 
 gulp.task('sass', function() {
 	return gulp.src(sourceDir + "scss/+(styles.scss|fonts.scss)")
 	.pipe(sass().on('error', sass.logError))
-	.pipe(rename({suffix: '.min', prefix : ''}))
 	.pipe(autoprefixer({
-		browsers: ['last 15 versions'],
+		browsers: ['last 10 versions'],
 		cascade: false
 	}))
+	.pipe(gulp.dest(devDir + "css"))
+	.pipe(sync.stream())
 	.pipe(cssmin())
-	.pipe(gulp.dest(distDir + "css"))
-	.pipe(sync.stream());
+	.pipe(gulp.dest(distDir + "css"));
 });
 
 gulp.task('pug', function() {
@@ -38,6 +40,7 @@ gulp.task('pug', function() {
     pretty: true
   }))
   .on('error', console.log)
+  .pipe(gulp.dest(devDir))
   .pipe(htmlmin({collapseWhitespace: true}))
   .pipe(gulp.dest(distDir));
 });
@@ -47,28 +50,35 @@ gulp.task('pug', function() {
 gulp.task('scripts-libs-minify', function() {
 	return gulp.src([
 		sourceDir + "libs/jquery/dist/jquery.min.js",
-		sourceDir + "libs/svg4everybody/dist/svg4everybody.min.js"
+		sourceDir + "libs/svg4everybody/dist/svg4everybody.min.js",
+		sourceDir + "libs/vue/dist/vue.js",
+		sourceDir + "scripts/plugins/*.js",
+		sourceDir + "libs/fetch/fetch.js",
+		sourceDir + "libs/microplugin/src/microplugin.js",
+		sourceDir + "libs/sifter/sifter.min.js",
+		sourceDir + "libs/selectize/dist/js/selectize.min.js",
+		sourceDir + "libs/jquery-mask-plugin/dist/jquery.mask.min.js"
 		//add some libs
 	])
-	.pipe(concat('libs.min.js'))
+	.pipe(concat('libs.js'))
 	.pipe(jsmin({
 		outSourceMap: false
 	}))
-	.pipe(gulp.dest(distDir + "js/"));
+	.pipe(gulp.dest(distDir + "js/"))
+	.pipe(gulp.dest(devDir + "js/"));
 });
 
 gulp.task('scripts-minify', function() {
-	return gulp.src(sourceDir + "scripts/**/*.js")
-	.pipe(concat('scripts.min.js'))
-	.pipe(jsmin({
-		outSourceMap: true
-	}))
+	return gulp.src([sourceDir + "scripts/main.js", sourceDir + "scripts/priority_*.js", sourceDir + "scripts/*.js"])
+	.pipe(concat('scripts.js'))
+	.pipe(gulp.dest(devDir + "js/"))
+	.pipe(jsmin())
 	.pipe(gulp.dest(distDir + "js/"));
 });
 
 gulp.task('sync', function() {
 	sync.init({
-		server: {baseDir: distDir}
+		server: {baseDir: devDir}
 	});
 });
 
@@ -100,26 +110,49 @@ gulp.task('craft-svg', function() {
 			}
 		}
 	}))
-	.pipe(gulp.dest(distDir + "img/"));
+	.pipe(gulp.dest(distDir + "img/"))
+	.pipe(gulp.dest(devDir + "img/"));
+});
+
+gulp.task('copy-img', function() {
+	return gulp.src(sourceDir + "img/**/+(*.svg|*.png|*.jpg|*.gif|*.ico)")
+	.pipe(imgmin())
+	.pipe(gulp.dest(distDir + "img/"))
+	.pipe(gulp.dest(devDir + "img/"));
+});
+
+gulp.task('copy-favicon-refs', function() {
+	return gulp.src(sourceDir + "img/favicon/+(browserconfig.xml|manifest.json)")
+	.pipe(gulp.dest(distDir + "img/favicon/"))
+	.pipe(gulp.dest(devDir + "img/favicon/"));
+});
+
+gulp.task('copy-fonts', function() {
+	return gulp.src(sourceDir + "fonts/*.ttf")
+	.pipe(gulp.dest(distDir + "fonts/"))
+	.pipe(gulp.dest(devDir + "fonts/"))
 });
 
 gulp.task('watch', function() {
 
 	gulp.watch(sourceDir + "scss/**/*.scss", ['sass']);
 	gulp.watch(sourceDir + "pug/**/*.pug", ['pug', sync.reload]);
-	gulp.watch(sourceDir + "scripts/**/*.js", ['scripts-minify', sync.reload]);
-	gulp.watch(sourceDir + "libs/**/*.js", ['scripts-libs-minify']);
-	gulp.watch(sourceDir + "icons/*.svg").on('change', function() {
-		runSequence('craft-svg', sync.reload);
-	});
-	gulp.watch(distDir + "img/**/+(*.svg|*.png|*.jpg|*.gif)").on('change', sync.reload);
+	gulp.watch(sourceDir + "scripts/*.js", ['scripts-minify', sync.reload]);
+	gulp.watch(sourceDir + "icons/*.svg", ['craft-svg', sync.reload]);
+	gulp.watch(sourceDir + "img/**/*", ['copy-img', sync.reload]);
+	gulp.watch(sourceDir + "fonts/*.ttf", ['copy-fonts', sync.reload]);
 });
 
 gulp.task('default', function() {
-	runSequence('craft-svg',
+	runSequence(['craft-svg', 'copy-img', 'copy-fonts', 'copy-favicon-refs'],
 							['sass', 'pug', 'scripts-libs-minify', 'scripts-minify'],
 							'sync',
 							'watch');
+});
+
+gulp.task('build', function() {
+	runSequence(['craft-svg', 'copy-img', 'copy-fonts', 'copy-favicon-refs'],
+							['sass', 'pug', 'scripts-libs-minify', 'scripts-minify']);
 });
 
 gulp.task('help', function() {
@@ -128,6 +161,7 @@ gulp.task('help', function() {
 	console.log();
 	console.log("'src' folder contains all sources and non-processing files");
 	console.log("'dist' folder - final folder(production folder), it's result");
+	console.log("'dev' folder - not minimized filez for work and debugging");
 	console.log();
 	console.log("***************************************");
 	console.log();

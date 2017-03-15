@@ -1,2 +1,12 @@
-$color_on_dark--text: rgb(217, 217, 217);
-$color_on_light--text: rgb(105, 105, 105);
+// Font
+$baseSize: 16px;
+
+// Colors
+$dark: rgb(217, 217, 217);
+$light: rgb(105, 105, 105);
+
+// Breakpoints
+$lg: 1200px;
+$md: 992px;
+$sm: 768px;
+$xs: 400px;

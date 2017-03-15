@@ -1,8 +1,8 @@
 // Plugins
-@import "../libs/bourbon/app/assets/stylesheets/bourbon";
-@import "../libs/normalize-css/normalize.css";
+@import "../libs/normalize-css/normalize";
 
 // Common
+@import "./common/mixins";
 @import "./common/variables";
 @import "./common/sprites";
 

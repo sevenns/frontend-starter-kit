@@ -1,3 +1,6 @@
-@import "../libs/bourbon/app/assets/stylesheets/bourbon";
-
-@include font-face("OpenSans-Regular", "../fonts/OpenSans-Regular", $file-formats: ttf);
+@font-face {
+  font-family: 'OpenSans-Regular';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../fonts/OpenSans-Regular.ttf') format("truetype");
+}

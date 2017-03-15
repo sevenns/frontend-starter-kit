@@ -2,8 +2,6 @@
 /node_modules/**/*
 /src/libs/**/*
 /src/scss/common/_sprites.scss
-/dist/css/**/*
-/dist/img/*
-/dist/js/*.js
-/dist/js/*.map
-/dist/*.html
+/dist/**/*
+/dev/**/*
+.DS_Store
