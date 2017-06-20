@@ -15,7 +15,19 @@ body {
   min-width: 320px;
   position: relative;
   line-height: 1.6;
-  font-family: 'OpenSans-Regular', sans-serif;
+  font-family: $baseFont;
   overflow-x: hidden;
   color: $light;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+textarea,
+input {
+  border-radius: 0!important;
+  -webkit-appearance: none!important;
+  appearance: none!important;
 }

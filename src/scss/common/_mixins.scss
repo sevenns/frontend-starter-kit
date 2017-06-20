@@ -5,3 +5,19 @@
   $remSize: $size / $baseSize;
   @return #{$remSize}rem;
 }
+
+@mixin respond($screen) {
+  @if $screen == mobile {
+    @media (max-width: $xs) { @content; }
+  } @else if $screen == medium-tablet {
+    @media (min-width: $xs) { @content; }
+  } @else if $screen == wide-tablet {
+    @media (min-width: $sm) { @content; }
+  } @else if $screen == medium-screen {
+    @media (min-width: $md) { @content; }
+  } @else if $screen == wide-screen {
+    @media (min-width: $lg) { @content; }
+  } @else if $screen == widest-screen {
+    @media (min-width: $max-width) { @content; }
+  }
+}

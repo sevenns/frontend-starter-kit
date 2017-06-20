@@ -63,7 +63,7 @@ gulp.task('scripts-libs-minify', function() {
 });
 
 gulp.task('scripts-minify', function() {
-	return gulp.src([sourceDir + "scripts/classes/*.js", sourceDir + "scripts/_entry.js", sourceDir + "scripts/**/*.js"])
+	return gulp.src([sourceDir + "scripts/classes/*.js", sourceDir + "scripts/_entry.js", sourceDir + "scripts/*.js"])
 	.pipe(concat('scripts.js'))
 	.pipe(gulp.dest(devDir + "js/"))
 	.pipe(jsmin())
