@@ -49,6 +49,7 @@ gulp.task('pug', function() {
 
 gulp.task('scripts-libs-minify', function() {
 	return gulp.src([
+		sourceDir + "scripts/plugins/*.js",
 		sourceDir + "libs/jquery/dist/jquery.min.js",
 		sourceDir + "libs/svg4everybody/dist/svg4everybody.min.js"
 		//add some libs
@@ -62,7 +63,7 @@ gulp.task('scripts-libs-minify', function() {
 });
 
 gulp.task('scripts-minify', function() {
-	return gulp.src([sourceDir + "scripts/main.js", sourceDir + "scripts/priority_*.js", sourceDir + "scripts/*.js"])
+	return gulp.src([sourceDir + "scripts/classes/*.js", sourceDir + "scripts/_entry.js", sourceDir + "scripts/**/*.js"])
 	.pipe(concat('scripts.js'))
 	.pipe(gulp.dest(devDir + "js/"))
 	.pipe(jsmin())
@@ -121,9 +122,9 @@ gulp.task('copy-favicon-refs', function() {
 });
 
 gulp.task('copy-fonts', function() {
-	return gulp.src(sourceDir + "fonts/*.ttf")
+	return gulp.src(sourceDir + "fonts/+(*.ttf|*.eot|*.otf|*.woff|*.woff2)")
 	.pipe(gulp.dest(distDir + "fonts/"))
-	.pipe(gulp.dest(devDir + "fonts/"))
+	.pipe(gulp.dest(devDir + "fonts/"));
 });
 
 gulp.task('watch', function() {
