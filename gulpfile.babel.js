@@ -21,6 +21,7 @@ import imgmin from 'gulp-imagemin';
 import babelify from 'babelify';
 import browserify from 'browserify';
 import source from 'vinyl-source-stream';
+import gutil from 'gulp-util';
 
 const sourceDir = "./src/",
 			devDir = "./dev/",
@@ -67,11 +68,11 @@ gulp.task('scripts-libs-minify', () => {
 
 gulp.task('scripts-minify', () => {
 	return browserify({
-		entries: [sourceDir + "scripts/_entry.js"]
+		entries: [sourceDir + "scripts/_main.js"]
 	})
 	.transform(babelify, {presets: ['es2015']})
 	.bundle()
-	.pipe(source("scripts.js"))
+	.pipe(source("bundle.js"))
 	.pipe(gulp.dest(devDir + "js/"))
 	.pipe(buffer())
 	.pipe(uglify())

@@ -1,6 +1,6 @@
 {
-  "name": "starting-template",
-  "description": "PUG-GULP-SASS template for fast start work",
+  "name": "es6-starting-template",
+  "description": "GULP-ES6-PUG-SASS template for fast start work",
   "main": "index.js",
   "authors": [
     "alexander sevenns"
