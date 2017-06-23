@@ -1,10 +1,13 @@
 // Plugins
-@import "../libs/normalize-css/normalize";
+@import '../libs/normalize-css/normalize';
 
 // Common
-@import "./common/mixins";
-@import "./common/variables";
-@import "./common/sprites";
+@import './common/mixins';
+@import './common/variables';
+@import './common/sprites';
 
 // Primary
-@import "./primary/base";
+@import './primary/base';
+
+// Components
+@import './components/welcome-block';
