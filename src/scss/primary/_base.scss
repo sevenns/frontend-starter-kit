@@ -1,20 +1,23 @@
-*, *::after, *::before {
+*,
+*::after,
+*::before {
   box-sizing: border-box;
 }
 
 html {
   font-size: $baseSize!important;
-  @include font(default);
+  font-weight: normal;
 }
 
 body {
   font-size: $baseSize!important;
+  font-weight: normal;
   min-width: 320px;
   position: relative;
   line-height: 1.6;
+  font-family: $baseFont;
   overflow-x: hidden;
-  color: $grey;
-  @include font(default);
+  color: $light;
 }
 
 ul {

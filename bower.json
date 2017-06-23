@@ -1,6 +1,6 @@
 {
-  "name": "es6-starting-template",
-  "description": "GULP-ES6-PUG-SASS template for fast start work",
+  "name": "starting-template",
+  "description": "PUG-GULP-SASS template for fast start work",
   "main": "index.js",
   "authors": [
     "alexander sevenns"
@@ -9,8 +9,7 @@
   "homepage": "github.com/sevenns",
   "devDependencies": {
     "svg4everybody": "^2.1.4",
-    "normalize-css": "^5.0.0",
-    "jquery": "^3.2.1"
+    "normalize-css": "^5.0.0"
   },
   "ignore": [
     "**/.*",

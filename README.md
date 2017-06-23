@@ -30,7 +30,7 @@ enter for start main function
 
 enter for craft icons
 
-    gulp craft-svg
+    gulp svg-sprite
 
 # SVG Sprites
 
