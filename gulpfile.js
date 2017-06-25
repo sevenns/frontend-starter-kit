@@ -63,8 +63,8 @@ gulp.task('scripts-libs-minify', function() {
 });
 
 gulp.task('scripts-minify', function() {
-	return gulp.src([sourceDir + "scripts/classes/*.js", sourceDir + "scripts/_entry.js", sourceDir + "scripts/*.js"])
-	.pipe(concat('scripts.js'))
+	return gulp.src([sourceDir + "scripts/classes/*.js", sourceDir + "scripts/_main.js", sourceDir + "scripts/*.js"])
+	.pipe(concat('bundle.js'))
 	.pipe(gulp.dest(devDir + "js/"))
 	.pipe(jsmin())
 	.pipe(gulp.dest(distDir + "js/"));
@@ -122,7 +122,7 @@ gulp.task('copy-favicon-refs', function() {
 });
 
 gulp.task('copy-fonts', function() {
-	return gulp.src(sourceDir + "fonts/+(*.ttf|*.eot|*.otf|*.woff|*.woff2)")
+	return gulp.src(sourceDir + "fonts/+(*.ttf|*.eot|*.otf|*.woff|*.woff2|*.svg)")
 	.pipe(gulp.dest(distDir + "fonts/"))
 	.pipe(gulp.dest(devDir + "fonts/"));
 });
@@ -134,7 +134,7 @@ gulp.task('watch', function() {
 	gulp.watch(sourceDir + "scripts/*.js", ['scripts-minify', sync.reload]);
 	gulp.watch(sourceDir + "icons/*.svg", ['craft-svg', sync.reload]);
 	gulp.watch(sourceDir + "img/**/*", ['copy-img', sync.reload]);
-	gulp.watch(sourceDir + "fonts/*.ttf", ['copy-fonts', sync.reload]);
+	gulp.watch(sourceDir + "fonts/*", ['copy-fonts', sync.reload]);
 });
 
 gulp.task('default', function() {

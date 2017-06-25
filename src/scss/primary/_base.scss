@@ -1,23 +1,20 @@
-*,
-*::after,
-*::before {
+*, *::after, *::before {
   box-sizing: border-box;
 }
 
 html {
   font-size: $baseSize!important;
-  font-weight: normal;
+  @include font(default);
 }
 
 body {
   font-size: $baseSize!important;
-  font-weight: normal;
   min-width: 320px;
   position: relative;
   line-height: 1.6;
-  font-family: $baseFont;
   overflow-x: hidden;
-  color: $light;
+  color: $grey;
+  @include font(default);
 }
 
 ul {
@@ -25,8 +22,7 @@ ul {
   padding: 0;
 }
 
-textarea,
-input {
+textarea, input {
   border-radius: 0!important;
   -webkit-appearance: none!important;
   appearance: none!important;

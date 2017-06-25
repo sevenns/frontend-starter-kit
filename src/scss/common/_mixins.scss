@@ -1,9 +1,25 @@
-@import "./variables";
+@import './variables';
 
 // Convert px to rem
 @function rem($size) {
   $remSize: $size / $baseSize;
   @return #{$remSize}rem;
+}
+
+@mixin font($type) {
+  @if $type == default {
+    font-family: $baseFont;
+    font-weight: normal;
+    font-style: normal;
+  } @else if $type == medium {
+    font-family: $baseFont;
+    font-weight: 500;
+    font-style: normal;
+  } @else if $type == light {
+    font-family: $baseFont;
+    font-weight: 300;
+    font-style: normal;
+  }
 }
 
 @mixin respond($screen) {
