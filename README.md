@@ -24,13 +24,17 @@ Now do the same thing with bower:
 
 You need to open project directory in your terminal and:
 
-enter for start main function
+enter for project build with watching
 
     gulp
 
+enter for project build without watching
+
+    gulp build
+
 enter for craft icons
 
-    gulp svg-sprite
+    gulp craft-svg
 
 # SVG Sprites
 
