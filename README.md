@@ -3,8 +3,6 @@
 You need [nodejs] (https://nodejs.org/en/) with npm and gulp
     
     npm install -g gulp
-    
-For work bower you need to install [git] (https://git-scm.com/downloads) on your PC
 
 # Install
 
@@ -22,9 +20,13 @@ enter for start main function
 
     gulp
 
-enter for craft icons
+enter for build only
 
-    gulp craft-svg
+    gulp build
+
+enter for copy all assets
+
+    gulp copy
 
 # SVG Sprites
 
