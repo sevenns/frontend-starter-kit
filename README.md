@@ -1,8 +1,6 @@
 # Requirements
 
-You need [nodejs] (https://nodejs.org/en/) with npm, bower and gulp
-
-    npm install -g bower
+You need [nodejs] (https://nodejs.org/en/) with npm and gulp
     
     npm install -g gulp
     
@@ -12,13 +10,9 @@ For work bower you need to install [git] (https://git-scm.com/downloads) on your
 
 You need to open project directory in your terminal
 
-First, you need to install node modules:
+You need to install node modules:
 
     npm i
-
-Now do the same thing with bower:
-
-    bower i
 
 # Use
 
@@ -30,7 +24,7 @@ enter for start main function
 
 enter for craft icons
 
-    gulp svg-sprite
+    gulp craft-svg
 
 # SVG Sprites
 

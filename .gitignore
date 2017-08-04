@@ -1,7 +1,6 @@
 /.idea/**/*
 /node_modules/**/*
-/src/libs/**/*
-/src/scss/common/_sprites.scss
+/src/sass/common/_sprites.sass
 /dist/**/*
 /dev/**/*
 .DS_Store
