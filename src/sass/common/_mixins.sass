@@ -1,0 +1,40 @@
+@import ./variables
+
+// Convert px to rem
+@function rem($size)
+  $remSize: $size / $baseSize
+  @return #{$remSize}rem
+
+=font($type)
+  @if $type == default
+    font-family: $baseFont
+    font-weight: normal
+    font-style: normal
+  @else if $type == medium
+    font-family: $baseFont
+    font-weight: 500
+    font-style: normal
+  @else if $type == light
+    font-family: $baseFont
+    font-weight: 300
+    font-style: normal
+
+=respond($screen)
+  @if $screen == xxs
+    @media (max-width: $xs)
+      @content
+  @else if $screen == xs
+    @media (min-width: $xs)
+      @content
+  @else if $screen == sm
+    @media (min-width: $sm)
+      @content
+  @else if $screen == md
+    @media (min-width: $md)
+      @content
+  @else if $screen == lg
+    @media (min-width: $lg)
+      @content
+  @else if $screen == xlg
+    @media (min-width: $xlg)
+      @content

@@ -16,69 +16,66 @@ var gulp =					require('gulp'),
 		runSequence =		require('run-sequence'),
 		imgmin =				require('gulp-imagemin');
 
-var sourceDir = "./src/",
-		devDir = "./dev/",
-		distDir = "./dist/";
+var src = './src/',
+		dev = './dev/',
+		dist = './dist/';
 
 
 gulp.task('sass', function() {
-	return gulp.src(sourceDir + "scss/+(styles.scss|fonts.scss)")
+	return gulp.src(src + 'sass/+(styles.sass|fonts.sass)')
 	.pipe(sass().on('error', sass.logError))
 	.pipe(autoprefixer({
 		browsers: ['last 10 versions'],
 		cascade: false
 	}))
-	.pipe(gulp.dest(devDir + "css"))
+	.pipe(gulp.dest(dev + 'css'))
 	.pipe(sync.stream())
 	.pipe(cssmin())
-	.pipe(gulp.dest(distDir + "css"));
+	.pipe(gulp.dest(dist + 'css'));
 });
 
 gulp.task('pug', function() {
-  return gulp.src(sourceDir + "pug/*.pug")
+  return gulp.src(src + 'pug/*.pug')
   .pipe(pug({
     pretty: true
   }))
   .on('error', console.log)
-  .pipe(gulp.dest(devDir))
+  .pipe(gulp.dest(dev))
   .pipe(htmlmin({collapseWhitespace: true}))
-  .pipe(gulp.dest(distDir));
+  .pipe(gulp.dest(dist));
 });
-
-
 
 gulp.task('scripts-libs-minify', function() {
 	return gulp.src([
-		sourceDir + "scripts/plugins/*.js",
-		sourceDir + "libs/jquery/dist/jquery.min.js",
-		sourceDir + "libs/svg4everybody/dist/svg4everybody.min.js"
-		//add some libs
+		'./node_modules/jquery/dist/jquery.min.js',
+		'./node_modules/svg4everybody/dist/svg4everybody.min.js',
+		src + 'scripts/plugins/*.js'
 	])
 	.pipe(concat('libs.js'))
 	.pipe(jsmin({
 		outSourceMap: false
 	}))
-	.pipe(gulp.dest(distDir + "js/"))
-	.pipe(gulp.dest(devDir + "js/"));
+	.pipe(gulp.dest(dist + "js/"))
+	.pipe(gulp.dest(dev + "js/"));
 });
 
 gulp.task('scripts-minify', function() {
-	return gulp.src([sourceDir + "scripts/classes/*.js", sourceDir + "scripts/_main.js", sourceDir + "scripts/*.js"])
+	return gulp.src([src + 'scripts/_settings.js', src + 'scripts/classes/*.js', src + 'scripts/_main.js', src + 'scripts/*.js'])
 	.pipe(concat('bundle.js'))
-	.pipe(gulp.dest(devDir + "js/"))
+	.pipe(gulp.dest(dev + 'js/'))
 	.pipe(jsmin())
-	.pipe(gulp.dest(distDir + "js/"));
+	.pipe(gulp.dest(dist + 'js/'));
 });
 
 gulp.task('sync', function() {
 	sync.init({
-		server: {baseDir: devDir}
+		server: { baseDir: dev }
 	});
 });
 
 gulp.task('craft-svg', function() {
-	del(sourceDir + 'scss/common/_sprites.scss');
-	return gulp.src(sourceDir + "icons/*.svg")
+	del(src + 'sass/common/_sprites.sass');
+	return gulp.src(src + "icons/*.svg")
 	.pipe(svgmin({
 		js2svg: { pretty: true }
 	}))
@@ -96,45 +93,43 @@ gulp.task('craft-svg', function() {
 			symbol: {
 				sprite: "../sprites.svg",
 				render: {
-					scss: {
-						dest: "../../../src/scss/common/_sprites.scss",
-						template: sourceDir + "scss/common/_sprites_layout.scss"
+					sass: {
+						dest: '../../../src/sass/common/_sprites.sass',
+						template: src + 'sass/common/_sprites_layout.sass'
 					}
 				}
 			}
 		}
 	}))
-	.pipe(gulp.dest(distDir + "img/"))
-	.pipe(gulp.dest(devDir + "img/"));
+	.pipe(gulp.dest(dist + 'img/'))
+	.pipe(gulp.dest(dev + 'img/'));
 });
 
 gulp.task('copy-img', function() {
-	return gulp.src(sourceDir + "img/**/+(*.svg|*.png|*.jpg|*.gif|*.ico)")
+	return gulp.src(src + 'img/**/+(*.svg|*.png|*.jpg|*.gif|*.ico)')
 	.pipe(imgmin())
-	.pipe(gulp.dest(distDir + "img/"))
-	.pipe(gulp.dest(devDir + "img/"));
+	.pipe(gulp.dest(dist + 'img/'))
+	.pipe(gulp.dest(dev + 'img/'));
 });
 
 gulp.task('copy-favicon-refs', function() {
-	return gulp.src(sourceDir + "img/favicon/+(browserconfig.xml|manifest.json)")
-	.pipe(gulp.dest(distDir + "img/favicon/"))
-	.pipe(gulp.dest(devDir + "img/favicon/"));
+	return gulp.src(src + 'img/favicon/+(browserconfig.xml|manifest.json)')
+	.pipe(gulp.dest(dist + 'img/favicon/'))
+	.pipe(gulp.dest(dev + 'img/favicon/'));
 });
 
 gulp.task('copy-fonts', function() {
-	return gulp.src(sourceDir + "fonts/+(*.ttf|*.eot|*.otf|*.woff|*.woff2|*.svg)")
-	.pipe(gulp.dest(distDir + "fonts/"))
-	.pipe(gulp.dest(devDir + "fonts/"));
+	return gulp.src(src + 'fonts/+(*.ttf|*.eot|*.otf|*.woff|*.woff2|*.svg)')
+	.pipe(gulp.dest(dist + 'fonts/'))
+	.pipe(gulp.dest(dev + 'fonts/'));
 });
 
 gulp.task('watch', function() {
 
-	gulp.watch(sourceDir + "scss/**/*.scss", ['sass']);
-	gulp.watch(sourceDir + "pug/**/*.pug", ['pug', sync.reload]);
-	gulp.watch(sourceDir + "scripts/*.js", ['scripts-minify', sync.reload]);
-	gulp.watch(sourceDir + "icons/*.svg", ['craft-svg', sync.reload]);
-	gulp.watch(sourceDir + "img/**/*", ['copy-img', sync.reload]);
-	gulp.watch(sourceDir + "fonts/*", ['copy-fonts', sync.reload]);
+	gulp.watch(src + 'sass/**/*.sass', ['sass']);
+	gulp.watch(src + 'pug/**/*.pug', ['pug', sync.reload]);
+	gulp.watch(src + 'scripts/*.js', ['scripts-minify', sync.reload]);
+	gulp.watch(src + 'scripts/classes/**/*.js', ['scripts-minify', sync.reload]);
 });
 
 gulp.task('default', function() {
@@ -149,13 +144,17 @@ gulp.task('build', function() {
 							['sass', 'pug', 'scripts-libs-minify', 'scripts-minify']);
 });
 
+gulp.task('copy', function() {
+	runSequence(['craft-svg', 'copy-img', 'copy-fonts', 'copy-favicon-refs']);
+});
+
 gulp.task('help', function() {
 	console.log();
 	console.log("***************************************");
 	console.log();
 	console.log("'src' folder contains all sources and non-processing files");
 	console.log("'dist' folder - final folder(production folder), it's result");
-	console.log("'dev' folder - not minimized filez for work and debugging");
+	console.log("'dev' folder - not minimized files for work and debugging");
 	console.log();
 	console.log("***************************************");
 	console.log();
