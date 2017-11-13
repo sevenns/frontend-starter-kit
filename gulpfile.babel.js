@@ -125,7 +125,7 @@ gulp.task('copy-fonts', () => {
 gulp.task('watch', () => {
 	gulp.watch(src + 'sass/**/*.sass', ['sass']);
 	gulp.watch(src + 'pug/**/*.pug', ['pug', sync.reload]);
-	gulp.watch(src + 'scripts/*.js', ['scripts-minify', sync.reload]);
+	gulp.watch(src + 'scripts/**/*.js', ['scripts-minify', sync.reload]);
 });
 
 gulp.task('default', () => {
